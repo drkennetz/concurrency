@@ -81,5 +81,7 @@ in the background.
 
 ## Count numbers between a given range in each row - parallel example problem
 The first problem is: Given a 2D matrix, count how many numbers are present between a given range in each row.
-We will explore this in `matrix.py`
+We will explore this in `matrix.py`.
+
+If you look at matrix.py, you see there is a serial implementation and a parallel implementation. 
 
