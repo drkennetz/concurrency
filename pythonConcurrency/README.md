@@ -33,6 +33,7 @@ Pool Class:
    - `Pool.map_async()` and `Pool.starmap_async()`
    - `Pool.apply_async()`
 
+### Sync Execution:
 `Pool.map()`:
  - takes a function and an iterable as arguments
  - Applies the function to each element of the iterable one by one
@@ -48,11 +49,37 @@ Pool Class:
  - example in `pool_starmap.py`
 
 `Pool.apply()`:
- - Not a parallel implementation
+ - Not a parallel implementation (can use in a list to run multiple instantiations in parallel)
  - Applies a function to the arguments specified in args, like `apply(func, args=())`.
  - Executes the function with the provided arguments synchronously, meaning it awaits for the function call to complete
    before returning the result.
  - Allows us to keep sequential code within same pooling as parallel execution, providing easier interface integration,
    clearer code reading, and easier to refactor if algorithm eventually becomes parallelizable.
+ - I do not know of any cases where one should call `Pool.apply()` in a list as opposed to `map()` or `starmap()`,
+   but I will include an example.
  - Example in `pool_map_apply.py` -> shows how it can be a bit clearer with other parallel code execution.
+
+### Async Execution
+`map_async` and `starmap_async` are similar to `map` and `starmap` respectively, but they return asynchronous result objects immediately
+instead of blocking until all results are ready. This allows you to continue with other tasks while the multiprocessing tasks are running
+in the background.
+
+`Pool.map_async()`:
+ - applies a function to each item in an iterable asynchronously
+ - takes the same arguments as `map()`: a func and an iterable
+ - It returns an `AsyncResult` object immediately instead of blocking until all results are ready
+ - Can use the `get()` method of `AsyncResult` object to retrieve the results when they are ready
+ - Example in `pool_map_async.py`
+
+`Pool.starmap_async()`:
+ - `starmap_async()` applies in same way as `starmap` and has same behavior as `map_async()`
+ - Example in `pool_starmap_async.py`
+
+`Pool.apply_async()`:
+ - sorry for the brevity - applies in the same way as `apply` and has same behavior as other async methods
+ - Example in `pool_apply_async.py`
+
+## Count numbers between a given range in each row - parallel example problem
+The first problem is: Given a 2D matrix, count how many numbers are present between a given range in each row.
+We will explore this in `matrix.py`
 
